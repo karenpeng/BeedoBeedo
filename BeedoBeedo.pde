@@ -5,6 +5,13 @@ String [] melody= {
   "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5", 
   "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6"
 };
+String [] melody2= {
+  "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", 
+  "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", 
+  "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", 
+  "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5", 
+  "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6"
+};
 Station [] s= new Station [10];
 ArrayList<Station> s1;
 ArrayList<Station> s2;
@@ -67,9 +74,9 @@ void setup() {
   s3.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*7.5, "C3"));  
   s3.add(s1.get(8));
 
-  s5.add(s4.get(3));
-  s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*4.5, "C3"));
-  s5.add(s7.get(3));
+  s5.add(s4.get(5));
+  s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*6.5, "C3"));
+  s5.add(s7.get(5));
 
   s6.add(s7.get(6));
   s6.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*8.5, "C3"));
@@ -121,6 +128,7 @@ void draw() {
   }
 
   for (Ball _b:balls) {
+    _b.jigger();
     _b.view();
     _b.pickTrain();
     _b.follow();
