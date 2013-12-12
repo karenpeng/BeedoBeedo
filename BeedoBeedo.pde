@@ -99,6 +99,9 @@ void setup() {
       lines.get(i).stations.get(0).transitBegin=true;
       lines.get(i).stations.get(2).transitEnd=true;
     }
+    if(i==2||i==5||i==8){
+      lines.get(i).stations.get(0).left=true;
+    }
   }
 
   for (int i=0;i<7;i++) {
@@ -119,7 +122,8 @@ void draw() {
 
   for (Ball _b:balls) {
     _b.view();
-    //_b.follow(_b.pickLine());
+    _b.pickTrain();
+    _b.follow();
   }
 }
 
@@ -130,6 +134,7 @@ void mousePressed() {
     }
     if (i==1||i==2||i==4||i==5||i==7||i==8) {
       lines.get(i).stations.get(1).onOff();
+      lines.get(i).stations.get(0).direct();
     }
   }
   for (Ball _b:balls) {

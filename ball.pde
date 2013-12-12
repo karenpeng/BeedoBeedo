@@ -3,6 +3,7 @@ class Ball {
   boolean touch, attach, blink;
   int counter;
   color c;
+  Train t;
 
   Ball(float _x, float _y) {
     x=_x;
@@ -31,44 +32,51 @@ class Ball {
     }
   }
 
-  Line pickLine() {
-    if (touch && !attach) {
-      for (int i=0;i<10;i++) {
-        if (i==0||i==3||i==6||i==9) {
-          float dis = dist(lines.get(i).stations.get(0).x, lines.get(i).stations.get(0).y, x, y);
-          if (dis<d) {
-            attach=true;
-            return lines.get(i);
-          }
+  void pickTrain() {
+
+    for (int i=0;i<10;i++) {
+      if (i==0||i==3||i==6||i==9) {
+        Train _t =lines.get(i).trains.get(lines.get(i).trains.size()-1);
+        float waitTrainDis = dist(_t.pos.x, _t.pos.y, x, y);
+        if (waitTrainDis<d/2) {
+          attach=true;
+          t=_t;
         }
       }
     }
-    return null;
   }
 
-  void follow(Line _l) {
-    if (attach && _l.trains.size()!=0) {
-      Train t= _l.trains.get(_l.trains.size()-1);
+  void follow() {
+    if (attach && t!=null) {
       x=t.pos.x;
       y=t.pos.y;
     }
   }
 
-  void transfer() {
-  }
-
   void unfollow() {
+    attach=false;
   }
 
-  void trigger(Line _l) {
+  void transfer(Station _s) {
+    if (_s.transitBegin && _s.status!=0) {
+      unfollow();
+    }
+    if (_s.transitEnd) {
+      unfollow();
+    }
+  }
+
+  Station trigger(Line _l) {
     if (attach) {
       for (Station _s: _l.stations) {
         float dis=dist(_s.x, _s.y, x, y);
         if (dis<1 && _s.on) {
           blink=true;
+          return _s;
         }
       }
     }
+    return null;
   }
 
   void view() {

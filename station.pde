@@ -1,9 +1,9 @@
 class Station {
   float x, y, d, lastX, lastY;
-  boolean on, hover, transitBegin, transitEnd, left;
+  boolean on, hover, transitHover, transitBegin, transitEnd, left;
   //status: 0:dow; 1:left; 2:right;
   boolean changeDir;
-  //float status; 
+  float status; 
   float angle;
   String pitch;
   boolean last;
@@ -17,6 +17,7 @@ class Station {
     on=false;
     hover=false;
     transitBegin=false;
+    status=0;
     transitEnd=false;
     angle=PI;
     left=false;
@@ -29,9 +30,7 @@ class Station {
     float dis = dist(mouseX, mouseY, x, y);
     if (dis<=d*.6) {  
       hover = true;
-      // if (mousePressed) {
       on = !on;
-      // }
     }
   }
 
@@ -47,36 +46,49 @@ class Station {
     if (hover) {
       cursor(HAND);
     }
+
+    /*
+    if (transitBegin) {
+     float transitDis = dist(mouseX, mouseY, x, y-20);
+     if (transitDis<6) {
+     transitHover=true;
+     }
+     if (hover && transitDis>=6) {
+     transitHover = false;
+     cursor(ARROW);
+     }
+     if (transitHover) {
+     cursor(HAND);
+     }
+     }
+     */
   }
   void direct() {
     if (transitBegin) {
-      float transitDis = dist(x, y, mouseX, mouseY);
-      if (transitDis<=20) {
-        //lastX=x+20*(mouseX-x)/ transitDis;
-        //lastY=y+20*(mouseY-y)/ transitDis;
-        /*
-        if (!left) {
-         lastX=constrain(lastX, x-15*sqrt(3), x);
-         lastY=constrain(lastY, y-15, y);
-         }
-         else {
-         lastX=constrain(lastX, x, x+15*sqrt(3));
-         lastY=constrain(lastY, y-15, y);
-         }
-         */
-        changeDir=true;
+      float transitDis;
+      if (status==0) {
+        transitDis = dist(x, y+20, mouseX, mouseY);
       }
-      /*
-      if (lastX<x-8) {
-        status=1;
-      }
-      else if (lastX>x+8) {
-        status=2;
+      else if (status==1) {
+        transitDis = dist(x-10*sqrt(3), y+10, mouseX, mouseY);
       }
       else {
+        transitDis = dist(x+10*sqrt(3), y+10, mouseX, mouseY);
+      }
+      
+      if (transitDis<6) {
+        changeDir=!changeDir;
+      }
+
+      if (!changeDir) {
         status=0;
       }
-      */
+      if (changeDir && left) {
+        status = 1;
+      }
+      if (changeDir && !left) {
+        status=2;
+      }
     }
   } 
 
@@ -91,18 +103,22 @@ class Station {
       stroke(255);
       strokeWeight(2);
       ellipse(x, y, d, d);
-
       if (transitBegin) {
-        /*
-        if (lastX-x>=0) {
-          float dd = asin((lastY-y)/dist(lastX, lastY, x, y));
-          angle=map(dd, -PI/2, PI/2, 0, PI);
+        if (status==1) {
+          angle=PI*2/3;
+          lastX=x-10*sqrt(3);
+          lastY=y+10;
         }
-        else {
-          float dd = asin((lastY-y)/dist(lastX, lastY, x, y));
-          angle=map(dd, PI/2, -PI/2, PI, PI*2);
+        if (status==2) {
+          angle=PI*2/3;
+          lastX=x+10*sqrt(3);
+          lastY=y+10;
         }
-        */
+        if (status==0) {
+          angle=PI;
+          lastX=x;
+          lastY=y+20;
+        }
         pushMatrix();
         fill(0, 30, 185);
         translate(lastX, lastY);
