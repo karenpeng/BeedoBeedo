@@ -14,10 +14,18 @@ class Ball {
     c=color(random(20, 255), random(20, 255), random(20, 230));
   }
 
-  void drag() {  
+  void picked() {  
     float dis = dist(mouseX, mouseY, x, y);
     if (dis<d) {
       touch=true;
+    }
+    else {
+      touch=false;
+    }
+  }
+
+  void dragged() {
+    if (touch) {
       x=mouseX;
       y=mouseY;
     }

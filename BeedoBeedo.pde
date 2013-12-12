@@ -132,6 +132,9 @@ void mousePressed() {
       lines.get(i).stations.get(1).onOff();
     }
   }
+  for (Ball _b:balls) {
+    _b.picked();
+  }
 }
 
 void mouseDragged() {
@@ -142,7 +145,8 @@ void mouseDragged() {
     }
   }
   for (Ball _b:balls) {
-    _b.drag();
+    _b.dragged();
   }
 }
+
 
