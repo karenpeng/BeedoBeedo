@@ -20,7 +20,7 @@ ArrayList<Line> lines;
 ArrayList<Ball> balls;
 int count=0;
 float gap = 44;
-float wBegin=80;
+float wBegin=70;
 float hBegin=280;
 
 void setup() {
@@ -124,6 +124,7 @@ void draw() {
     _b.view();
     _b.pickTrain();
     _b.follow();
+    _b.transfer(_b.trigger());
   }
 }
 
