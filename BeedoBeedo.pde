@@ -69,26 +69,35 @@ void setup() {
   s2.add(s1.get(3));
   s2.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*3.5, "C3"));
   s2.add(s4.get(3));
+  s2.get(0).toWhere=2;
 
   s3.add(s4.get(6));
   s3.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*7.5, "C3"));  
   s3.add(s1.get(8));
+  s3.get(0).toWhere=3;
+  s3.get(2).left=true;
 
   s5.add(s4.get(5));
   s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*6.5, "C3"));
   s5.add(s7.get(5));
+  s5.get(0).toWhere=5;
 
   s6.add(s7.get(6));
   s6.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*8.5, "C3"));
   s6.add(s4.get(8));
+  s6.get(0).toWhere=6;
+  s6.get(2).left=true;
 
   s8.add(s7.get(3));
   s8.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*5.5, "C3"));
   s8.add(s10.get(3));
+  s8.get(0).toWhere=8;
 
   s9.add(s10.get(6));
   s9.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*9.5, "C3"));
   s9.add(s7.get(8));
+  s9.get(0).toWhere=9;
+  s9.get(2).left=true;
 
   lines.add(new Line(s1));
   lines.add(new Line(s2));
@@ -102,11 +111,16 @@ void setup() {
   lines.add(new Line(s10));
 
   for (int i=0;i<10;i++) {
-    if (i==1||i==2||i==4||i==5||i==7||i==8) {
+    if (i==4||i==5||i==1||i==8||i==2||i==7) {
       lines.get(i).stations.get(0).transitBegin=true;
       lines.get(i).stations.get(2).transitEnd=true;
     }
-    if(i==2||i==5||i==8){
+    //if () {
+    //  lines.get(i).stations.get(0).transitBegin=true;
+      //lines.get(i).stations.get(2).transitEnd=true;
+   // }
+
+    if (i==2||i==5||i==8) {
       lines.get(i).stations.get(0).left=true;
     }
   }
@@ -162,5 +176,4 @@ void mouseDragged() {
     _b.dragged();
   }
 }
-
 

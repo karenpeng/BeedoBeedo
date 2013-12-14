@@ -7,6 +7,7 @@ class Station {
   float angle;
   String pitch;
   boolean last;
+  int toWhere;
 
   Station(float _x, float _y, String _p) {
     x=_x;
