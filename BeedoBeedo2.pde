@@ -125,9 +125,11 @@ void setup() {
       lines.get(i).stations.get(0).transitBegin=true;
       lines.get(i).stations.get(2).transitEnd=true;
       lines.get(i).change=true;
+      lines.get(i).maxspeed=1;
     }
     if (i==2||i==5||i==8) {
       lines.get(i).stations.get(0).left=true;
+      lines.get(i).maxspeed=2;
     }
 
     if (i==0||i==3||i==6||i==9) {
@@ -178,7 +180,7 @@ void draw() {
     if (_l.change) {
       for (Train t: lines.get(_l.stations.get(0).passLine).trains) {
         if (t.atStation(_l.stations.get(0))) {
-          _l.addTrain();
+          _l.addTrainNoLimit();
         }
       }
     }

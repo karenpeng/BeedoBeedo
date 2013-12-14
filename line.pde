@@ -3,7 +3,7 @@ class Line {
   ArrayList<Train> trains;
   boolean change;
   boolean loop;
-
+  int maxspeed=2;
   Line(ArrayList<Station> _s) {
     stations=_s;
     trains=new ArrayList<Train>();
@@ -20,12 +20,21 @@ class Line {
   }
 
   void addTrain() {
-    if (trains.size()==0 || trains.get(trains.size()-1).nextIndex==3) {
+    if (trains.size()==0 || trains.get(trains.size()-1).nextIndex==4) {
       Station start = stations.get(0);
       Train t = new Train(new PVector(start.x, start.y));
       t.setLine(stations);
+      t.maxspeed = maxspeed;
       trains.add(t);
     }
+  }
+
+  void addTrainNoLimit() {
+    Station start = stations.get(0);
+    Train t = new Train(new PVector(start.x, start.y));
+    t.setLine(stations);
+    t.maxspeed = maxspeed;
+    trains.add(t);    
   }
 
   void moveTrain() {

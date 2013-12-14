@@ -41,7 +41,8 @@ class Train {
     vel.add(acc);
     acc.mult(0);
     history.add(pos.get());
-    if (history.size() > 10) {
+    //make sure maxspeed change wont change the length of train too match
+    if (history.size() * maxspeed > 20) {
       history.remove(0);
     }
   }
