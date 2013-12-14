@@ -20,9 +20,9 @@ class Line {
     line(n.x, n.y, m.x, m.y);
   }
 
-  void addTrain(int i) {
+  void addTrain() {
      if (trains.size()==0 || trains.get(trains.size()-1).nextIndex==4) {
-    Station start = stations.get(i);
+    Station start = stations.get(0);
     Train t = new Train(new PVector(start.x, start.y));
     t.setLine(stations);
     t.maxspeed = maxspeed;

@@ -87,42 +87,42 @@ void setup() {
   s10.get(12).last=true;
 
   s2.add(s1.get(3));
-  s2.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*3.5, "C3"));
+  s2.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*3.5, "C5"));
   s2.add(s4.get(3));
   s2.get(0).passLine=0;
   s2.get(0).blockLine=1;
   s2.get(2).toWhere=3;
 
   s3.add(s4.get(6));
-  s3.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*7.5, "C5"));  
+  s3.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*7.5, "F4"));  
   s3.add(s1.get(8));
   s3.get(0).passLine=3;
   s3.get(0).blockLine=2;
   s3.get(2).toWhere=0;
 
   s5.add(s4.get(5));
-  s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*6.5, "F4"));
+  s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*6.5, "C4"));
   s5.add(s7.get(5));
   s5.get(0).passLine=3;
   s5.get(0).blockLine=4;
   s5.get(2).toWhere=6;
 
   s6.add(s7.get(6));
-  s6.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*8.5, "C4"));
+  s6.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*8.5, "F4"));
   s6.add(s4.get(8));
   s6.get(0).passLine=6;
   s6.get(0).blockLine=5;
   s6.get(2).toWhere=3;
 
   s8.add(s7.get(3));
-  s8.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*5.5, "F4"));
+  s8.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*5.5, "C3"));
   s8.add(s10.get(3));
   s8.get(0).passLine=6;
   s8.get(0).blockLine=7;
   s8.get(2).toWhere=9;
 
   s9.add(s10.get(6));
-  s9.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*9.5, "C3"));
+  s9.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*9.5, "F2"));
   s9.add(s7.get(8));
   s9.get(0).passLine=9;
   s9.get(0).blockLine=8;
@@ -144,9 +144,11 @@ void setup() {
       lines.get(i).stations.get(0).transitBegin=true;
       lines.get(i).stations.get(2).transitEnd=true;
       lines.get(i).change=true;
+      lines.get(i).maxspeed=2;
     }
     if (i==2||i==5||i==8) {
       lines.get(i).stations.get(0).left=true;
+      lines.get(i).maxspeed=3;
     }
 
     if (i==0||i==3||i==6||i==9) {
@@ -175,27 +177,26 @@ void draw() {
    }
    }
    */
-  
+  /*
   for (int i=0;i<10;i++) {
-    if (!lines.get(i).change) {
-      if (i%2==0) {
-        lines.get(i).addTrain(0);
-      }
-      
-      else  {
-        lines.get(i).addTrain(1);
-      }
-      
-    }
-  }
-
+   if (!lines.get(i).change) {
+   if (i%2==0) {
+   lines.get(i).addTrain();
+   }
+   
+   else if(i%2!=0 && lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==2) {
+   lines.get(i).addTrain();
+   }
+   
+   }
+   }
+   */
   for (Line _l:lines) {
     _l.drawLine();
-    /*
+
     if (!_l.change) {
-     
-     _l.addTrain();
-     }*/
+      _l.addTrain();
+    }
     _l.moveTrain();
     _l.checkLoop();
     _l.showStation();
