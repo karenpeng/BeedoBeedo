@@ -7,6 +7,9 @@ class Station {
   float angle;
   String pitch;
   boolean last;
+  int passLine;
+  int blockLine;
+  int toWhere;
 
   Station(float _x, float _y, String _p) {
     x=_x;
@@ -95,12 +98,12 @@ class Station {
   void show() {
     if (!last) {
       if (on) {
-        fill(255, 255, 0);
+        fill(200);
       }
       else {
         noFill();
       }
-      stroke(255);
+      stroke(10);
       strokeWeight(2);
       ellipse(x, y, d, d);
       if (transitBegin) {
@@ -120,10 +123,10 @@ class Station {
           lastY=y+20;
         }
         pushMatrix();
-        fill(0, 30, 185);
+        fill(250, 255, 255);
         translate(lastX, lastY);
         rotate(angle);
-        stroke(0, 30, 185);
+        stroke(250, 255, 255);
         strokeWeight(2);
         beginShape();    
         vertex(3, 3);
@@ -136,12 +139,12 @@ class Station {
     }
     else {
       if (on) {
-        fill(0, 30, 185);
+        fill(200);
       }
       else {
         noFill();
       }
-      stroke(255);
+      stroke(10);
       strokeWeight(2);
       ellipse(x, y, d*1.4, d*1.4);
       noFill();

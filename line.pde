@@ -1,16 +1,20 @@
 class Line {
   ArrayList<Station> stations;
   ArrayList<Train> trains;
+  boolean change;
+  boolean loop;
 
   Line(ArrayList<Station> _s) {
     stations=_s;
     trains=new ArrayList<Train>();
+    change=false;
+    loop=false;
   }
 
   void drawLine() {
     Station n = stations.get(stations.size()-1);
     Station m = stations.get(0);
-    stroke(255);
+    stroke(10);
     strokeWeight(2);
     line(n.x, n.y, m.x, m.y);
   }
@@ -44,10 +48,19 @@ class Line {
       _s.show();
     }
   }
-  
-    void clickStation() {
+
+  void clickStation() {
     for (Station _s:stations) {
       _s.onOff();
+    }
+  }
+
+  void checkLoop() {
+    if (stations.get(stations.size()-1).on) {
+      loop=true;
+    }
+    else {
+      loop=false;
     }
   }
 }
