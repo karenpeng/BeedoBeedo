@@ -42,7 +42,7 @@ int i3=11;
 
 void setup() {
   size(800, 800);
-  //frameRate(40);
+  frameRate(100);
   minim = new Minim(this);
   out = minim.getLineOut();
   colorMode(HSB);
@@ -94,28 +94,28 @@ void setup() {
   s2.get(2).toWhere=3;
 
   s3.add(s4.get(6));
-  s3.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*7.5, "C3"));  
+  s3.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*7.5, "C5"));  
   s3.add(s1.get(8));
   s3.get(0).passLine=3;
   s3.get(0).blockLine=2;
   s3.get(2).toWhere=0;
 
   s5.add(s4.get(5));
-  s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*6.5, "C3"));
+  s5.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*6.5, "F4"));
   s5.add(s7.get(5));
   s5.get(0).passLine=3;
   s5.get(0).blockLine=4;
   s5.get(2).toWhere=6;
 
   s6.add(s7.get(6));
-  s6.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*8.5, "C3"));
+  s6.add(new Station(hBegin+gap*sqrt(3)*3/2, wBegin+gap*8.5, "C4"));
   s6.add(s4.get(8));
   s6.get(0).passLine=6;
   s6.get(0).blockLine=5;
   s6.get(2).toWhere=3;
 
   s8.add(s7.get(3));
-  s8.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*5.5, "C3"));
+  s8.add(new Station(hBegin+gap*sqrt(3)*5/2, wBegin+gap*5.5, "F4"));
   s8.add(s10.get(3));
   s8.get(0).passLine=6;
   s8.get(0).blockLine=7;
@@ -175,26 +175,27 @@ void draw() {
    }
    }
    */
-   /*
+  
   for (int i=0;i<10;i++) {
     if (!lines.get(i).change) {
-      if (i%2==0 && lines.get(i).trains.size()==0 || i%2==0 &&
-        lines.get(i).trains.get(lines.get(i).trains.size()-1).nextIndex==3) {
-        lines.get(i).addTrain();
+      if (i%2==0) {
+        lines.get(i).addTrain(0);
       }
-      if (i%2!=0 && lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==) {
-        lines.get(i).addTrain();
+      
+      else  {
+        lines.get(i).addTrain(1);
       }
+      
     }
   }
-*/
+
   for (Line _l:lines) {
-    //_l.drawLine();
-    
+    _l.drawLine();
+    /*
     if (!_l.change) {
      
      _l.addTrain();
-     }
+     }*/
     _l.moveTrain();
     _l.checkLoop();
     _l.showStation();
@@ -209,7 +210,7 @@ void draw() {
     if (_l.change) {
       for (Train t: lines.get(_l.stations.get(0).passLine).trains) {
         if (t.atStation(_l.stations.get(0))) {
-          _l.addTrain();
+          _l.addTrainNoLimit();
         }
       }
     }

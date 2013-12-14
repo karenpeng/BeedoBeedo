@@ -41,7 +41,7 @@ class Train {
     vel.add(acc);
     acc.mult(0);
     history.add(pos.get());
-    if (history.size() > 10) {
+    if (history.size()*maxspeed > 20) {
       history.remove(0);
     }
   }
@@ -94,9 +94,9 @@ class Train {
 
   void show() {
     noStroke();
-    //fill(255);
+    fill(255);
     //for debug
-    fill(0);
+    //fill(0);
     ellipse(pos.x, pos.y, d, d);
     for (PVector v: history) {
       ellipse(v.x, v.y, d, d);

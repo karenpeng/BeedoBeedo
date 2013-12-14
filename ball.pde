@@ -93,7 +93,7 @@ class Ball {
         // float stationDis = dist(_s.x, _s.y, x, y);
         for (Train _t: lines.get(lineIndex).trains) {
           float trainDis = dist(_t.pos.x, _t.pos.y, x, y);
-          if (/*stationDis<_s.d/2 && */trainDis<14) {
+          if (/*stationDis<_s.d/2 && */trainDis<6) {
             attach=true;
             t=_t;
             l=lines.get(lineIndex);
