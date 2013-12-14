@@ -9,6 +9,8 @@ class Ball {
   float theta;
   float slow;
   boolean enter;
+  int firstLine;
+  int blinkCounter, singCounter;
 
   Ball(float _x, float _y) {
     x=_x;
@@ -21,6 +23,8 @@ class Ball {
     theta=0;
     slow=2;
     enter=false;
+    blinkCounter=0;
+    singCounter=0;
   }
 
   void jigger() {
@@ -70,6 +74,7 @@ class Ball {
               if (stationDis<_s.d && waitTrainDis<_s.d) {
                 attach=true;
                 lineIndex=i;
+                firstLine=i;
                 l=lines.get(i);
                 t=_t;
                 enter=true;
@@ -79,7 +84,7 @@ class Ball {
         }
       }
     }
-    else {
+    if(enter) {
       //for (Station _s: lines.get(lineIndex).stations) {
       // float stationDis = dist(_s.x, _s.y, x, y);
       for (Train _t: lines.get(lineIndex).trains) {
@@ -88,7 +93,7 @@ class Ball {
           attach=true;
           t=_t;
           l=lines.get(lineIndex);
-          println(lineIndex);
+          //println(lineIndex);
           //println(t);
         }
       }
@@ -123,6 +128,25 @@ class Ball {
     return null;
   }
 
+  void button() {
+    if (sing) {
+      //out.playNote(song.tone);
+      //println("dfhs");
+      singCounter++;
+    }
+    if (singCounter>0) {
+      sing=false;
+      singCounter=0;
+    }
+    if (blink) {
+      blinkCounter++;
+    }
+    if (blinkCounter>10) {
+      blink=false;
+      blinkCounter=0;
+    }
+  }
+
   void transfer(Station _s) {
     if (_s!=null) {
       if (_s.transitBegin && _s.status!=0) {
@@ -130,7 +154,7 @@ class Ball {
         //l=null;
         //t=null;
         lineIndex=_s.blockLine;
-        print("?");
+        //print("?");
         //t=null;
       }
       if (_s.transitEnd) {
@@ -148,15 +172,18 @@ class Ball {
       if (!l.loop) {
         unfollow();
         enter=false;
+        l=null;
+        t=null;
         y+=slow;
         slow-=.05;
         if (slow<0) {
           slow=0;
         }
       }    
-      else if(enter){
-        x=l.stations.get(0).x;
-        y=l.stations.get(0).y;
+      else if (enter) {
+        x=lines.get(firstLine).stations.get(0).x;
+        y=lines.get(firstLine).stations.get(0).y;
+        lineIndex=firstLine;
       }
     }
   }
@@ -165,7 +192,7 @@ class Ball {
     fill(c); 
     noStroke();
     if (blink) {
-      ellipse(x, y, d+8, d+8);
+      ellipse(x, y, d+18, d+18);
     }
     else {
       ellipse(x, y, d, d);

@@ -86,12 +86,12 @@ class Train {
       }
     }
   }
-/*
+
   boolean atStation(Station s) {
     float distance = dist(s.x, s.y, pos.x, pos.y);
     return distance < 2;
   }
-*/
+
   void show() {
     noStroke();
     //fill(255);

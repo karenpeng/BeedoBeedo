@@ -140,22 +140,49 @@ void setup() {
       balls.add(new Ball(hBegin+i*gap*.9, 22+j*gap*.6));
     }
   }
+  
+
+  
 }
 
 void draw() {
   background(255);
+  /*
+    for(Line l:lines){
+    if(l.change){
+      //println(l.trains.size());
+      for(Train t: l.trains){
+        //println("out");
+        t.maxspeed=1.6;
+        //t.maxforce=1;
+      }
+    }
+  }
+  */
   for (Line _l:lines) {
-    _l.drawLine();
-    //if (!_l.change) {
-    _l.addTrain();
-    //}
+    //_l.drawLine();
+    if (!_l.change) {
+      _l.addTrain();
+    }
     _l.moveTrain();
     _l.checkLoop();
     _l.showStation();
-    
-    if(lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==2 && _l.change){
+
+    /*
+    if (lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==2 && _l.change) {
      _l.addTrain();
      }
+     */
+     
+     
+    if (_l.change) {
+      for (Train t: lines.get(_l.stations.get(0).passLine).trains) {
+        if (t.atStation(_l.stations.get(0))) {
+          _l.addTrain();
+        }
+      }
+    }
+    
   }
 
   for (Ball _b:balls) {
@@ -164,7 +191,34 @@ void draw() {
     _b.pickTrain();
     _b.follow();
     _b.transfer(_b.trigger());
+    _b.button();
     _b.loopLine();
+    for (Ball __b:balls) {
+      if (_b!=__b) {
+        if (!_b.enter && !__b.enter) {
+          float ballDis=dist(_b.x, _b.y, __b.x, __b.y);
+          if (ballDis<=_b.d/2+__b.d/2+1) {
+            if (_b.x>=__b.x) {
+              _b.x++;
+              __b.x--;
+            }
+            else {
+              __b.x++;
+              _b.x--;
+            }
+          }
+        }
+        /*
+        if (_b.enter && __b.enter) {
+         float ballDis=dist(_b.x, _b.y, __b.x, __b.y);
+         if (ballDis<=100) {
+         stroke((_b.c+__b.c)/2);
+         line(_b.x, _b.y, __b.x, __b.y);
+         }
+         }
+         */
+      }
+    }
   }
 }
 
