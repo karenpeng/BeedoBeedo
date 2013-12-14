@@ -1,3 +1,9 @@
+import ddf.minim.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioOutput out;
+
 String [] melody= {
   "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", 
   "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", 
@@ -6,11 +12,11 @@ String [] melody= {
   "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6"
 };
 String [] melody2= {
-  "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", 
-  "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", 
-  "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", 
-  "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5", 
-  "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6"
+  "E2", "F2", "G2", "A2", "B2", 
+  "C3", "D3", "E3", "F3", "G3", "A3", "B3", 
+  "C4", "D4", "E4", "F4", "G4", "A4", "B4", 
+  "C5", "D5", "E5", "F5", "G5", "A5", "B5", 
+  "C6", "D6", "E6", "F6"
 };
 Station [] s= new Station [10];
 ArrayList<Station> s1;
@@ -29,10 +35,16 @@ int count=0;
 float gap = 44;
 float wBegin=70;
 float hBegin=280;
+int i0=29;
+int i1=22;
+int i2=17;
+int i3=11;
 
 void setup() {
   size(800, 800);
   //frameRate(40);
+  minim = new Minim(this);
+  out = minim.getLineOut();
   colorMode(HSB);
   s1=new ArrayList<Station>();
   s2=new ArrayList<Station>();
@@ -48,22 +60,29 @@ void setup() {
   balls = new ArrayList<Ball>();
 
   for (float j=wBegin; j<wBegin+gap*13; j+=gap) {
-    s1.add(new Station(hBegin, j, "C3"));
+    s1.add(new Station(hBegin, j, melody2[i0]));
+    i0--;
   }
   s1.get(12).last=true;
 
   for (float j=wBegin+gap; j<wBegin+gap*13+gap; j+=gap) {
-    s4.add(new Station(hBegin+gap*sqrt(3), j, "C3"));
+    s4.add(new Station(hBegin+gap*sqrt(3), j, melody2[i1]));
+    i1--;
   }
   s4.get(12).last=true;
 
   for (float j=wBegin+gap*2; j<wBegin+gap*13+gap*2; j+=gap) {
-    s7.add(new Station(hBegin+gap*sqrt(3)*2, j, "C3"));
+    s7.add(new Station(hBegin+gap*sqrt(3)*2, j, melody2[i2]));
+    i2--;
   }
   s7.get(12).last=true;
 
   for (float j=wBegin+gap*3; j<wBegin+gap*13+gap*3; j+=gap) {
-    s10.add(new Station(hBegin+gap*sqrt(3)*3, j, "C3"));
+    s10.add(new Station(hBegin+gap*sqrt(3)*3, j, melody2[i3]));
+    i3--;
+    if (i3<0) {
+      i3=0;
+    }
   }
   s10.get(12).last=true;
 
@@ -140,30 +159,42 @@ void setup() {
       balls.add(new Ball(hBegin+i*gap*.9, 22+j*gap*.6));
     }
   }
-  
-
-  
 }
 
 void draw() {
   background(255);
   /*
     for(Line l:lines){
-    if(l.change){
-      //println(l.trains.size());
-      for(Train t: l.trains){
-        //println("out");
-        t.maxspeed=1.6;
-        //t.maxforce=1;
+   if(l.change){
+   //println(l.trains.size());
+   for(Train t: l.trains){
+   //println("out");
+   t.maxspeed=1.6;
+   //t.maxforce=1;
+   }
+   }
+   }
+   */
+   /*
+  for (int i=0;i<10;i++) {
+    if (!lines.get(i).change) {
+      if (i%2==0 && lines.get(i).trains.size()==0 || i%2==0 &&
+        lines.get(i).trains.get(lines.get(i).trains.size()-1).nextIndex==3) {
+        lines.get(i).addTrain();
+      }
+      if (i%2!=0 && lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==) {
+        lines.get(i).addTrain();
       }
     }
   }
-  */
+*/
   for (Line _l:lines) {
     //_l.drawLine();
+    
     if (!_l.change) {
-      _l.addTrain();
-    }
+     
+     _l.addTrain();
+     }
     _l.moveTrain();
     _l.checkLoop();
     _l.showStation();
@@ -173,8 +204,8 @@ void draw() {
      _l.addTrain();
      }
      */
-     
-     
+
+
     if (_l.change) {
       for (Train t: lines.get(_l.stations.get(0).passLine).trains) {
         if (t.atStation(_l.stations.get(0))) {
@@ -182,7 +213,6 @@ void draw() {
         }
       }
     }
-    
   }
 
   for (Ball _b:balls) {
@@ -246,6 +276,16 @@ void mouseDragged() {
   }
   for (Ball _b:balls) {
     _b.dragged();
+  }
+}
+
+void keyPressed() {
+  if (key=='s' || key=='S') {
+    for (Ball _b: balls) {
+      _b.enter=false;
+      _b.x=_b.orX;
+      _b.y=_b.orY;
+    }
   }
 }
 

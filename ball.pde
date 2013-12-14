@@ -1,5 +1,6 @@
 class Ball {
   float x, y, d;
+  float orX, orY;
   boolean touch, attach, blink, sing;
   int counter;
   color c;
@@ -15,6 +16,8 @@ class Ball {
   Ball(float _x, float _y) {
     x=_x;
     y=_y;
+    orX=_x;
+    orY=_y;
     d=20;
     touch=false;
     attach=false;
@@ -49,56 +52,58 @@ class Ball {
   }
 
   void pickTrain() {
-    if (!enter) {
-      for (int i=0;i<10;i++) {
-        /*
+    if (!mousePressed) {
+      if (!enter) {
+        for (int i=0;i<10;i++) {
+          /*
       if (lines.get(i).trains.size()!=0) {
-         Station _s=lines.get(i).stations.get(0);
-         Train _t =lines.get(i).trains.get(lines.get(i).trains.size()-1);
-         float stationDis = dist(_s.x, _s.y, x, y);
-         float waitTrainDis = dist(_t.pos.x, _t.pos.y, x, y);
-         if (stationDis<d/2 && waitTrainDis<d/2) {
-         attach=true;
-         lineIndex=i;
-         t=_t;
-         }
-         }
-         }
-         */
+           Station _s=lines.get(i).stations.get(0);
+           Train _t =lines.get(i).trains.get(lines.get(i).trains.size()-1);
+           float stationDis = dist(_s.x, _s.y, x, y);
+           float waitTrainDis = dist(_t.pos.x, _t.pos.y, x, y);
+           if (stationDis<d/2 && waitTrainDis<d/2) {
+           attach=true;
+           lineIndex=i;
+           t=_t;
+           }
+           }
+           }
+           */
 
-        if (lines.get(i).trains.size()!=0) {
-          for (Station _s:lines.get(i).stations) {
-            for (Train _t :lines.get(i).trains) {
-              float stationDis = dist(_s.x, _s.y, x, y);
-              float waitTrainDis = dist(_t.pos.x, _t.pos.y, x, y);
-              if (stationDis<_s.d && waitTrainDis<_s.d) {
-                attach=true;
-                lineIndex=i;
-                firstLine=i;
-                l=lines.get(i);
-                t=_t;
-                enter=true;
+          if (lines.get(i).trains.size()!=0) {
+            for (Station _s:lines.get(i).stations) {
+              for (Train _t :lines.get(i).trains) {
+                float stationDis = dist(_s.x, _s.y, x, y);
+                float waitTrainDis = dist(_t.pos.x, _t.pos.y, x, y);
+                if (stationDis<_s.d && waitTrainDis<_s.d) {
+                  attach=true;
+                  lineIndex=i;
+                  firstLine=i;
+                  l=lines.get(i);
+                  t=_t;
+                  enter=true;
+                }
               }
             }
           }
         }
       }
-    }
-    if(enter) {
-      //for (Station _s: lines.get(lineIndex).stations) {
-      // float stationDis = dist(_s.x, _s.y, x, y);
-      for (Train _t: lines.get(lineIndex).trains) {
-        float trainDis = dist(_t.pos.x, _t.pos.y, x, y);
-        if (/*stationDis<_s.d/2 && */trainDis<14) {
-          attach=true;
-          t=_t;
-          l=lines.get(lineIndex);
-          //println(lineIndex);
-          //println(t);
+      if (enter) {
+        //for (Station _s: lines.get(lineIndex).stations) {
+        // float stationDis = dist(_s.x, _s.y, x, y);
+        for (Train _t: lines.get(lineIndex).trains) {
+          float trainDis = dist(_t.pos.x, _t.pos.y, x, y);
+          if (/*stationDis<_s.d/2 && */trainDis<14) {
+            attach=true;
+            t=_t;
+            l=lines.get(lineIndex);
+            //println(lineIndex);
+            //println(t);
+          }
         }
       }
+      // }
     }
-    // }
   }
 
   void follow() {
@@ -117,9 +122,12 @@ class Ball {
       for (Station _s: t.stations) {
         float dis=dist(_s.x, _s.y, x, y);
         if (dis<1) {
-          if (_s.on) {
+          if (_s.on && !_s.last) {
             blink=true;
             sing=true;
+          }
+          if (sing) {
+            out.playNote(_s.pitch);
           }
           return _s;
         }
@@ -170,20 +178,25 @@ class Ball {
   void loopLine() {
     if (t!=null && t.nextIndex==12 && t.arrived) {
       if (!l.loop) {
-        unfollow();
-        enter=false;
-        l=null;
-        t=null;
+
+        unfollow();       
+        //l=null;
+        //t=null;
         y+=slow;
         slow-=.05;
         if (slow<0) {
           slow=0;
         }
+        enter=false;
+        println("out");
       }    
+
       else if (enter) {
         x=lines.get(firstLine).stations.get(0).x;
         y=lines.get(firstLine).stations.get(0).y;
         lineIndex=firstLine;
+        println("loop");
+        slow=2;
       }
     }
   }
