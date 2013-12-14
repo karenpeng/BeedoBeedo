@@ -32,7 +32,7 @@ float hBegin=280;
 
 void setup() {
   size(800, 800);
-  frameRate(40);
+  //frameRate(40);
   colorMode(HSB);
   s1=new ArrayList<Station>();
   s2=new ArrayList<Station>();
@@ -152,10 +152,10 @@ void draw() {
     _l.moveTrain();
     _l.checkLoop();
     _l.showStation();
-    /*
+    
     if(lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==2 && _l.change){
      _l.addTrain();
-     }*/
+     }
   }
 
   for (Ball _b:balls) {
