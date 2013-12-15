@@ -193,7 +193,7 @@ class Ball {
   }
 
   void loopLine() {
-    if (t!=null && t.nextIndex==8 && t.arrived) {
+    if (t!=null && t.nextIndex==9 && t.arrived) {
       if (!l.loop) {
 
         unfollow();       

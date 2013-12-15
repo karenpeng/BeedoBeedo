@@ -98,7 +98,7 @@ class Station {
   void show() {
     if (!last) {
       if (on) {
-        fill(200);
+        fill(180);
       }
       else {
         noFill();
@@ -139,14 +139,14 @@ class Station {
     }
     else {
       if (on) {
-        fill(200);
+        fill(180);
       }
       else {
         noFill();
       }
       stroke(10);
       strokeWeight(2);
-      ellipse(x, y, d*1.4, d*1.4);
+      ellipse(x, y, d*1.6, d*1.6);
       noFill();
       arc(x, y, d*.7, d*.7, 0, PI);
       line(x+d*.7/2,y-2,x+d*.5/2,y+1);
