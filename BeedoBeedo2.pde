@@ -18,6 +18,12 @@ String [] melody2= {
   "C5", "D5", "E5", "F5", "G5", "A5", "B5", 
   "C6", "D6", "E6", "F6"
 };
+String [] melody3= {
+  "C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4",
+  "C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5",
+  "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6"
+};
+
 Station [] s= new Station [10];
 ArrayList<Station> s1;
 ArrayList<Station> s2;
@@ -33,18 +39,19 @@ ArrayList<Line> lines;
 ArrayList<Ball> balls;
 int count=0;
 float gap = 44;
-float wBegin=70;
-float hBegin=280;
-int i0=29;
-int i1=22;
-int i2=17;
-int i3=11;
+float wBegin=170;
+float hBegin=74;
+int i0=19;
+int i1=15;
+int i2=11;
+int i3=7;
 
 void setup() {
-  size(800, 800);
-  frameRate(100);
+  size(400, 800);
+  //frameRate(180);
   minim = new Minim(this);
   out = minim.getLineOut();
+
   colorMode(HSB);
   s1=new ArrayList<Station>();
   s2=new ArrayList<Station>();
@@ -59,32 +66,32 @@ void setup() {
   lines = new ArrayList<Line>();
   balls = new ArrayList<Ball>();
 
-  for (float j=wBegin; j<wBegin+gap*13; j+=gap) {
-    s1.add(new Station(hBegin, j, melody2[i0]));
+  for (float j=wBegin; j<wBegin+gap*9; j+=gap) {
+    s1.add(new Station(hBegin, j, melody3[i0]));
     i0--;
   }
-  s1.get(12).last=true;
+  s1.get(8).last=true;
 
-  for (float j=wBegin+gap; j<wBegin+gap*13+gap; j+=gap) {
-    s4.add(new Station(hBegin+gap*sqrt(3), j, melody2[i1]));
+  for (float j=wBegin+gap; j<wBegin+gap*9+gap; j+=gap) {
+    s4.add(new Station(hBegin+gap*sqrt(3), j, melody3[i1]));
     i1--;
   }
-  s4.get(12).last=true;
+  s4.get(8).last=true;
 
-  for (float j=wBegin+gap*2; j<wBegin+gap*13+gap*2; j+=gap) {
-    s7.add(new Station(hBegin+gap*sqrt(3)*2, j, melody2[i2]));
+  for (float j=wBegin+gap*2; j<wBegin+gap*9+gap*2; j+=gap) {
+    s7.add(new Station(hBegin+gap*sqrt(3)*2, j, melody3[i2]));
     i2--;
   }
-  s7.get(12).last=true;
+  s7.get(8).last=true;
 
-  for (float j=wBegin+gap*3; j<wBegin+gap*13+gap*3; j+=gap) {
-    s10.add(new Station(hBegin+gap*sqrt(3)*3, j, melody2[i3]));
+  for (float j=wBegin+gap*3; j<wBegin+gap*9+gap*3; j+=gap) {
+    s10.add(new Station(hBegin+gap*sqrt(3)*3, j, melody3[i3]));
     i3--;
     if (i3<0) {
       i3=0;
     }
   }
-  s10.get(12).last=true;
+  s10.get(8).last=true;
 
   s2.add(s1.get(3));
   s2.add(new Station(hBegin+gap*sqrt(3)/2, wBegin+gap*3.5, "C5"));
@@ -152,13 +159,13 @@ void setup() {
     }
 
     if (i==0||i==3||i==6||i==9) {
-      lines.get(i).stations.get(12).on=true;
+      lines.get(i).stations.get(8).on=true;
     }
   }
 
   for (int i=0;i<7;i++) {
     for (int j=0;j<2;j++) {
-      balls.add(new Ball(hBegin+i*gap*.9, 22+j*gap*.6));
+      balls.add(new Ball(hBegin+i*gap*.9, 90+j*gap));
     }
   }
 }
@@ -285,6 +292,9 @@ void keyPressed() {
   if (key=='s' || key=='S') {
     for (Ball _b: balls) {
       _b.enter=false;
+      _b.t=null;
+      _b.l=null;
+      _b.attach=false;
       _b.x=_b.orX;
       _b.y=_b.orY;
     }
