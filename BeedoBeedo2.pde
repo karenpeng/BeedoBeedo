@@ -48,7 +48,7 @@ int i3=7;
 
 void setup() {
   size(680, 760);
-  //frameRate(100);
+  frameRate(100);
   minim = new Minim(this);
   out = minim.getLineOut();
 
@@ -171,7 +171,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(230);
 
   text(Float.toString(frameRate),width-100,40);
   /*

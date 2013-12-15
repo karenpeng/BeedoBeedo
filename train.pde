@@ -94,7 +94,7 @@ class Train {
 
   void show() {
     noStroke();
-    fill(255);
+    fill(230);
     //for debug
     //fill(0);
     ellipse(pos.x, pos.y, d, d);
