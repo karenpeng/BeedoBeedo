@@ -149,6 +149,8 @@ class Station {
       ellipse(x, y, d*1.4, d*1.4);
       noFill();
       arc(x, y, d*.7, d*.7, 0, PI);
+      line(x+d*.7/2,y-2,x+d*.5/2,y+1);
+      line(x+d*.7/2,y-2,x+d*.9/2,y+1);
     }
   }
 }

@@ -12,6 +12,8 @@ class Ball {
   boolean enter;
   int firstLine;
   int blinkCounter, singCounter;
+  boolean mouseOver;
+  float effectDiameter;
 
   Ball(float _x, float _y) {
     x=_x;
@@ -28,6 +30,7 @@ class Ball {
     enter=false;
     blinkCounter=0;
     singCounter=0;
+    mouseOver=false;
   }
 
   void jigger() {
@@ -41,6 +44,20 @@ class Ball {
     }
     else {
       touch=false;
+    }
+  }
+
+  void mouseOver() {
+    float dis = dist(mouseX, mouseY, x, y);
+    if (dis<=d/2 && !enter) {
+      mouseOver=true;
+    }
+    if (mouseOver && dis>d/2) {
+      mouseOver = false;
+      cursor(ARROW);
+    }
+    if (mouseOver) {
+      cursor(HAND);
     }
   }
 
@@ -183,7 +200,7 @@ class Ball {
         //l=null;
         //t=null;
         y+=slow;
-        slow-=.05;
+        slow-=.03;
         if (slow<0) {
           slow=0;
         }
@@ -201,15 +218,16 @@ class Ball {
     }
   }
 
-  void view() {
-    fill(c); 
+  void view() {   
     noStroke();
     if (blink) {
-      ellipse(x, y, d+18, d+18);
+      fill(c, 100); 
+      ellipse(x, y, d+20, d+20);
+      fill(c, 150); 
+      ellipse(x, y, d+6, d+6);
     }
-    else {
-      ellipse(x, y, d, d);
-    }
+    fill(c); 
+    ellipse(x, y, d, d);
   }
 }
 

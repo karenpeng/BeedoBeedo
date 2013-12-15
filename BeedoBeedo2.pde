@@ -19,8 +19,8 @@ String [] melody2= {
   "C6", "D6", "E6", "F6"
 };
 String [] melody3= {
-  "C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4",
-  "C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5",
+  "C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", 
+  "C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", 
   "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6"
 };
 
@@ -40,15 +40,15 @@ ArrayList<Ball> balls;
 int count=0;
 float gap = 44;
 float wBegin=170;
-float hBegin=74;
+float hBegin=210;
 int i0=19;
 int i1=15;
 int i2=11;
 int i3=7;
 
 void setup() {
-  size(400, 800);
-  //frameRate(180);
+  size(680, 760);
+  //frameRate(100);
   minim = new Minim(this);
   out = minim.getLineOut();
 
@@ -165,13 +165,15 @@ void setup() {
 
   for (int i=0;i<7;i++) {
     for (int j=0;j<2;j++) {
-      balls.add(new Ball(hBegin+i*gap*.9, 90+j*gap));
+      balls.add(new Ball(hBegin+i*gap*.9, 80+j*gap));
     }
   }
 }
 
 void draw() {
   background(255);
+
+  text(Float.toString(frameRate),width-100,40);
   /*
     for(Line l:lines){
    if(l.change){
@@ -227,6 +229,7 @@ void draw() {
   for (Ball _b:balls) {
     _b.jigger();
     _b.view();
+    _b.mouseOver();
     _b.pickTrain();
     _b.follow();
     _b.transfer(_b.trigger());
@@ -297,6 +300,16 @@ void keyPressed() {
       _b.attach=false;
       _b.x=_b.orX;
       _b.y=_b.orY;
+    }
+  }
+}
+
+void mouseClicked() {
+  for (int i=0;i<10;i++) {
+    for (Station s: lines.get(i).stations) {
+      if (dist(mouseX, mouseY, s.x, s.y)<s.d && s.on && !s.last) {
+        out.playNote(s.pitch);
+      }
     }
   }
 }
