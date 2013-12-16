@@ -39,7 +39,7 @@ ArrayList<Line> lines;
 ArrayList<Ball> balls;
 int count=0;
 float gap = 44;
-float wBegin=160;
+float wBegin=150;
 float hBegin=210;
 int i0=20;
 int i1=16;
@@ -48,7 +48,7 @@ int i3=8;
 
 void setup() {
   size(680, 760);
-  frameRate(100);
+  frameRate(120);
   minim = new Minim(this);
   out = minim.getLineOut();
 
@@ -151,7 +151,7 @@ void setup() {
       lines.get(i).stations.get(0).transitBegin=true;
       lines.get(i).stations.get(2).transitEnd=true;
       lines.get(i).change=true;
-      lines.get(i).maxspeed=2;
+      lines.get(i).maxspeed=3;
     }
     if (i==2||i==5||i==8) {
       lines.get(i).stations.get(0).left=true;
@@ -173,7 +173,7 @@ void setup() {
 void draw() {
   background(230);
 
-  text(Float.toString(frameRate),width-100,40);
+  text(Float.toString(frameRate), width-100, 40);
   /*
     for(Line l:lines){
    if(l.change){
@@ -186,22 +186,14 @@ void draw() {
    }
    }
    */
-  /*
+
   for (int i=0;i<10;i++) {
-   if (!lines.get(i).change) {
-   if (i%2==0) {
-   lines.get(i).addTrain();
-   }
-   
-   else if(i%2!=0 && lines.get(0).trains.get(lines.get(0).trains.size()-1).nextIndex==2) {
-   lines.get(i).addTrain();
-   }
-   
-   }
-   }
-   */
+    float ii=map(i, 0, 19, 1, 8);
+    lines.get(i).drawLine(ii);
+  }
+
   for (Line _l:lines) {
-    _l.drawLine();
+    //_l.drawLine();
 
     if (!_l.change) {
       _l.addTrain();
@@ -262,6 +254,8 @@ void draw() {
       }
     }
   }
+
+  //ellipse(width-100,100,100,100)
 }
 
 void mousePressed() {
@@ -300,6 +294,13 @@ void keyPressed() {
       _b.attach=false;
       _b.x=_b.orX;
       _b.y=_b.orY;
+    }
+    for (int i=0;i<10;i++) {
+      for (Station s: lines.get(i).stations) {
+        if (!s.last) {
+          s.on=false;
+        }
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-class Ball {
+ class Ball {
   float x, y, d;
   float orX, orY;
   boolean touch, attach, blink, sing;
@@ -35,7 +35,7 @@ class Ball {
 
   void jigger() {
     d=sin(theta)*4+22;
-    theta+=.1;
+    theta+=.05;
   }
   void picked() {  
     float dis = dist(mouseX, mouseY, x, y);

@@ -3,7 +3,7 @@ class Line {
   ArrayList<Train> trains;
   boolean change;
   boolean loop;
-  int maxspeed=2;
+  float maxspeed=3;
 
   Line(ArrayList<Station> _s) {
     stations=_s;
@@ -12,11 +12,11 @@ class Line {
     loop=false;
   }
 
-  void drawLine() {
+  void drawLine(float i) {
     Station n = stations.get(stations.size()-1);
     Station m = stations.get(0);
     stroke(10);
-    strokeWeight(2);
+    strokeWeight(i);
     line(n.x, n.y, m.x, m.y);
   }
 

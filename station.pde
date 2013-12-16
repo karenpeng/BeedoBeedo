@@ -98,7 +98,7 @@ class Station {
   void show() {
     if (!last) {
       if (on) {
-        fill(180);
+        fill(250, 255, 255);
       }
       else {
         noFill();
